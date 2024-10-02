@@ -1,28 +1,13 @@
 ﻿using Serilog;
 using System.Globalization;
 using System.Xml;
-using ValutaClient;
 
-public class ExchangeRateProvider : IExchangeRateProvider
+public static class ExchangeRateProvider
 {
-    #region Fields
-
-    private readonly ILogger _logger;
-
-    #endregion
-
-    #region Ctor
-
-    public ExchangeRateProvider(ILogger logger)
-    {
-        _logger = logger;
-    }
-
-    #endregion
 
     #region Methods
 
-    public async Task<IList<ExchangeRate>> GetCurrencyLiveRatesAsync(string exchangeRateCurrencyCode)
+    public static async Task<IList<ExchangeRate>> GetAllCurrencyLiveRatesAsync(string exchangeRateCurrencyCode)
     {
         if (string.IsNullOrEmpty(exchangeRateCurrencyCode))
         {
@@ -81,7 +66,7 @@ public class ExchangeRateProvider : IExchangeRateProvider
         }
         catch (Exception ex)
         {
-            _logger.Error($"GetCurrencyLiveRatesAsync: {ex.Message}");
+            Log.Logger.Error($"GetCurrencyLiveRatesAsync: {ex.Message}");
         }
 
         //return result for the euro
