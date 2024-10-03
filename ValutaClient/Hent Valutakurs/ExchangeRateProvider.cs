@@ -12,7 +12,9 @@ public static class ExchangeRateProvider
         if (string.IsNullOrEmpty(exchangeRateCurrencyCode))
         {
             //TODO log
-            throw new ArgumentNullException(exchangeRateCurrencyCode, nameof(exchangeRateCurrencyCode));
+            Log.Logger.Warning($"Received event from {exchangeRateCurrencyCode}");
+            return null;
+            //throw new ArgumentNullException(exchangeRateCurrencyCode, nameof(exchangeRateCurrencyCode));
         }
 
         //add euro with rate 1
