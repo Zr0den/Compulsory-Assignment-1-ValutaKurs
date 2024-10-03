@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValutaClient", "ValutaClien
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{17AF483E-91B5-4C7A-BD47-6DEA04BA0201}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageClient", "MessageClient\MessageClient.csproj", "{92DCF8AD-D0F5-43A4-B9B1-8E61E23E25BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{17AF483E-91B5-4C7A-BD47-6DEA04BA0201}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17AF483E-91B5-4C7A-BD47-6DEA04BA0201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17AF483E-91B5-4C7A-BD47-6DEA04BA0201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92DCF8AD-D0F5-43A4-B9B1-8E61E23E25BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92DCF8AD-D0F5-43A4-B9B1-8E61E23E25BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92DCF8AD-D0F5-43A4-B9B1-8E61E23E25BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92DCF8AD-D0F5-43A4-B9B1-8E61E23E25BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
