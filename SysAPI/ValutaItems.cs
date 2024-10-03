@@ -1,6 +1,6 @@
 namespace SysAPI
 {
-    public class WeatherForecast
+    public class ValutaItems
     {
         public DateOnly Date { get; set; }
 
