@@ -6,12 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SysAPI", "SysAPI\SysAPI.csproj", "{AE4116E8-6C5C-42F9-A29A-5EBEA32D960C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValutaClient", "ValutaClient\ValutaClient.csproj", "{7D6C73F5-7DBE-4487-9A44-7029F6BE5478}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF} = {6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}
+	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{17AF483E-91B5-4C7A-BD47-6DEA04BA0201}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageClient", "MessageClient\MessageClient.csproj", "{92DCF8AD-D0F5-43A4-B9B1-8E61E23E25BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpers", "Helpers\Helpers.csproj", "{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

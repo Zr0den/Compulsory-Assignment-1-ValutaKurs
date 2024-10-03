@@ -5,7 +5,7 @@
     //The conversion rate of the currency from the base currency
     public decimal Value { get; set; }
 
-    public DateTime LastModifiedDate { get; set; }
+    public DateTime Timestamp { get; set; }
 
     public ExchangeRate()
     {

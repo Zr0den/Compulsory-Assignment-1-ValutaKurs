@@ -24,7 +24,7 @@ public static class ExchangeRateProvider
             {
                 CurrencyCode = "EUR",
                 Value = 1,
-                LastModifiedDate = DateTime.UtcNow
+                Timestamp = DateTime.UtcNow
             }
         };
 
@@ -62,7 +62,7 @@ public static class ExchangeRateProvider
                 {
                     CurrencyCode = currency.Attributes["currency"].Value,
                     Value = currencyRate,
-                    LastModifiedDate = updateDate
+                    Timestamp = updateDate
                 });
             }
         }
@@ -89,7 +89,7 @@ public static class ExchangeRateProvider
         {
             CurrencyCode = rate.CurrencyCode,
             Value = Math.Round(rate.Value / exchangeRateCurrency.Value, 4),
-            LastModifiedDate = rate.LastModifiedDate
+            Timestamp = rate.Timestamp
         }).ToList();
     }
 
