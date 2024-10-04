@@ -24,15 +24,39 @@ namespace ValutaClient
 
         public void Start()
         {
-            Action<ValutaRequestMessage> callback = HandleNewValuta;
+            Action<ValutaRequestMessage> callback = CalculateExchangeRate;
             _newValutaClient.Connect();
             _newValutaClient.ListenUsingTopic(callback, "", "newValuta");
         }
-        
-        private void HandleNewValuta(ValutaRequestMessage valuta)
+
+        public async void CalculateExchangeRate(ValutaRequestMessage msg)
         {
+            ExchangeRate? exchangeRateFrom = await DB.Database.LoadData(msg.FromCurrencyCode);
+            ExchangeRate? exchangeRateTo;
+            if (exchangeRateFrom?.Timestamp < DateTime.Now.AddHours(-1))
+            {
+                //Data more than 1 hour old - get new data
+                IList<ExchangeRate> data = await ExchangeRateProvider.GetAllCurrencyLiveRatesAsync();
+                exchangeRateFrom = data.Where(x => x.CurrencyCode == msg.FromCurrencyCode).FirstOrDefault();
+                exchangeRateTo = data.Where(x => x.CurrencyCode == msg.ToCurrencyCode).FirstOrDefault();
 
+                await DB.Database.SaveData(data);
+            }
+            else
+            {
+                exchangeRateTo = await DB.Database.LoadData(msg.ToCurrencyCode);
+            }
+
+            decimal rate = Math.Round(exchangeRateTo.Value / exchangeRateFrom.Value, 5);
+            ValutaResponseMessage response = new ValutaResponseMessage()
+            {
+                FromCurrencyCode = exchangeRateFrom.CurrencyCode,
+                ToCurrencyCode = exchangeRateTo.CurrencyCode,
+                Value = msg.Value,
+                Rate = rate
+            };
+
+            _valutaChangedClient.SendUsingTopic<ValutaResponseMessage>(response, "Rate Calculated");
         }
-
     }
 }

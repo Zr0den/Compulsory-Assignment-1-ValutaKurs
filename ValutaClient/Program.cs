@@ -5,7 +5,6 @@ using MessageClient;
 using Microsoft.Identity.Client;
 using System.Diagnostics;
 using ValutaClient;
-using ValutaClient.Database;
 
 namespace Program
 {

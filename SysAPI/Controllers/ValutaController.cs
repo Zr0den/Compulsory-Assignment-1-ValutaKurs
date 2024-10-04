@@ -73,7 +73,7 @@ namespace SysAPI.Controllers
                 FromCurrencyCode = valuta.FromCurrencyCode,
                 Value = valuta.Value,
                 Rate = valuta.Rate,
-            }, "newValue");
+            }, "newValuta");
 
             var response = await MessageWaiter.WaitForMessage(_valutaResponseMessageClient, valuta.ValutaId.ToString())!;
 
