@@ -19,8 +19,6 @@ namespace Program
 
             var b = 1;
 
-
-
         }
         
     }

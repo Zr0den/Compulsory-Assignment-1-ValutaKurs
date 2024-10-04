@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,37 +20,51 @@ namespace ValutaClient.Database
 
         private void SetupDatabase()
         {
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
+            try
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
-            string cs = "IF OBJECT_ID(N'dbo.ExchangeRate', N'U') IS NULL BEGIN   CREATE TABLE dbo.ExchangeRate (Id INT IDENTITY(1,1), CurrencyCode varchar(3) not null, Value decimal not null, Timestamp DateTime not null); END;";
-            SqlCommand command = new SqlCommand(cs, sqlConnection);
-            command.ExecuteNonQuery();
-            sqlConnection.Close();
+                //string cs = "DROP TABLE ExchangeRate";
+                string cs = "IF OBJECT_ID(N'dbo.ExchangeRate', N'U') IS NULL BEGIN   CREATE TABLE dbo.ExchangeRate (Id INT IDENTITY(1,1), CurrencyCode varchar(3) not null, Value decimal(18,5) not null, Timestamp DateTime not null); END;";
+                SqlCommand command = new SqlCommand(cs, sqlConnection);
+                command.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"SetupDatabase: {ex.Message}");
+            }
         }
 
-        public void LoadData(string currencyCode)
+        public IList<ExchangeRate> LoadData(string currencyCode)
         {
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-
-            string cs = $"SELECT * FROM ExchangeRate where CurrencyCode = '{currencyCode}' ORDER BY ID DESC";
-            SqlCommand command = new SqlCommand(cs, sqlConnection);
-            SqlDataReader reader = command.ExecuteReader();
             List<ExchangeRate> result = new();
-            while (reader.Read())
+
+            try
             {
-                //a = reader.GetString(0);
-                //result.Add(reader[0].ToString());
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
-                string currency = reader["CurrencyCode"].ToString();
-                decimal value = Convert.ToInt32(reader["Value"]);
-                DateTime timestamp = Convert.ToDateTime(reader["Timestamp"]);
+                string cs = $"SELECT * FROM ExchangeRate where CurrencyCode = '{currencyCode}' ORDER BY ID DESC";
+                SqlCommand command = new SqlCommand(cs, sqlConnection);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string currency = reader["CurrencyCode"].ToString();
+                    decimal value = Convert.ToDecimal(reader["Value"]);
+                    DateTime timestamp = Convert.ToDateTime(reader["Timestamp"]);
 
-                result.Add(new ExchangeRate() { CurrencyCode = currency, Value = value, Timestamp = timestamp });
+                    result.Add(new ExchangeRate() { CurrencyCode = currency, Value = value, Timestamp = timestamp });
+                }
+
             }
-            var b = 1;
+            catch (Exception ex) 
+            {
+                Log.Error($"LoadData: currencyCode={currencyCode}: {ex.Message}");
+            }
 
+            return result;
         }
 
         public void SaveData(IList<ExchangeRate> data)
@@ -59,21 +74,29 @@ namespace ValutaClient.Database
                 return;
             }
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-
-            StringBuilder sb = new StringBuilder("INSERT INTO ExchangeRate (CurrencyCode, Value, Timestamp) VALUES ");
-            foreach (var item in data)
+            try
             {
-                sb.Append($"('{item.CurrencyCode}', {item.Value}, GETDATE()),");
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                StringBuilder sb = new StringBuilder("INSERT INTO ExchangeRate (CurrencyCode, Value, Timestamp) VALUES ");
+                foreach (var item in data)
+                {
+                    sb.Append($"('{item.CurrencyCode}', {item.Value}, GETDATE()),");
+                }
+                sb.Length--;
+                sb.Append(";");
+
+                SqlCommand command = new SqlCommand(sb.ToString(), sqlConnection);
+                command.ExecuteNonQuery();
+
+                sqlConnection.Close();
             }
-            sb.Length--;
-            sb.Append(";");
+            catch (Exception ex)
+            {
+                Log.Error($"SaveData: {ex.Message}");
+            }
 
-            SqlCommand command = new SqlCommand(sb.ToString(), sqlConnection);
-            command.ExecuteNonQuery();
-
-            sqlConnection.Close();
         }
     }
 }
