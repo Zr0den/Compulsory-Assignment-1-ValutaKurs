@@ -13,9 +13,9 @@ namespace Program
 
             //var a = await ExchangeRateProvider.GetAllCurrencyLiveRatesAsync("EUR");
 
-            Database db = new Database();
+            //Database db = new Database();
             //db.SaveData(a);
-            db.LoadData("DKK");
+            //db.LoadData("DKK");
 
             var b = 1;
 

@@ -6,19 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ValutaClient.Database
+namespace ValutaClient.DB
 {
-    public class Database
+    public sealed class Database
     {
         //static readonly string connectionString = @"Server=localhost,1433;User=sa;Password=S3cr3tP4sSw0rd;Persist Security Info=False;Trusted_Connection=False;Encrypt=False;TrustServerCertificate=True;";
-        static readonly string connectionString = "Server=localhost,1433;User Id=sa;Password=S3cr3tP4sSw0rd#123;Encrypt=false;TrustServerCertificate=True;";
+        private static readonly string connectionString = "Server=localhost,1433;User Id=sa;Password=S3cr3tP4sSw0rd#123;Encrypt=false;TrustServerCertificate=True;";
 
-        public Database()
+        static Database()
         {
             SetupDatabase();
         }
 
-        private void SetupDatabase()
+        private static void SetupDatabase()
         {
             try
             {
@@ -37,27 +37,27 @@ namespace ValutaClient.Database
             }
         }
 
-        public IList<ExchangeRate> LoadData(string currencyCode)
+        public static async Task<ExchangeRate?> LoadData(string currencyCode)
         {
-            List<ExchangeRate> result = new();
+            ExchangeRate? result = null;
 
             try
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string cs = $"SELECT * FROM ExchangeRate where CurrencyCode = '{currencyCode}' ORDER BY ID DESC";
+                string cs = $"SELECT TOP 1 1 FROM ExchangeRate where CurrencyCode = '{currencyCode}' ORDER BY ID DESC";
                 SqlCommand command = new SqlCommand(cs, sqlConnection);
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())
                 {
                     string currency = reader["CurrencyCode"].ToString();
                     decimal value = Convert.ToDecimal(reader["Value"]);
                     DateTime timestamp = Convert.ToDateTime(reader["Timestamp"]);
 
-                    result.Add(new ExchangeRate() { CurrencyCode = currency, Value = value, Timestamp = timestamp });
+                    result = new ExchangeRate() { CurrencyCode = currency, Value = value, Timestamp = timestamp };
                 }
-
+                sqlConnection.Close();
             }
             catch (Exception ex) 
             {
@@ -67,7 +67,7 @@ namespace ValutaClient.Database
             return result;
         }
 
-        public void SaveData(IList<ExchangeRate> data)
+        public static async Task SaveData(IList<ExchangeRate> data)
         {
             if (data.Count == 0)
             {
@@ -88,7 +88,7 @@ namespace ValutaClient.Database
                 sb.Append(";");
 
                 SqlCommand command = new SqlCommand(sb.ToString(), sqlConnection);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
 
                 sqlConnection.Close();
             }
@@ -96,7 +96,6 @@ namespace ValutaClient.Database
             {
                 Log.Error($"SaveData: {ex.Message}");
             }
-
         }
     }
 }
