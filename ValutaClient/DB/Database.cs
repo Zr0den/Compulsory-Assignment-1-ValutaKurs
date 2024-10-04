@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ValutaClient.DB
 {
-    public sealed class Database
+    public sealed class Database : DbContext
     {
         //static readonly string connectionString = @"Server=localhost,1433;User=sa;Password=S3cr3tP4sSw0rd;Persist Security Info=False;Trusted_Connection=False;Encrypt=False;TrustServerCertificate=True;";
         private static readonly string connectionString = "Server=localhost,1433;User Id=sa;Password=S3cr3tP4sSw0rd#123;Encrypt=false;TrustServerCertificate=True;";

@@ -10,6 +10,6 @@ namespace ValutaClient.Core.Repositories
 {
     public class ValutaRepository : EntityFrameworkRepository<Valuta>
     {
-        public ValutaRepository(Database.Database dbcontext) : base(dbcontext) { }
+        public ValutaRepository(DB.Database dbcontext) : base(dbcontext) { }
     }
 }
