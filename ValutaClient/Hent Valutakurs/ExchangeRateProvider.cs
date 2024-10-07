@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Helpers;
+using Serilog;
 using System.Globalization;
 using System.Xml;
 
@@ -10,6 +11,8 @@ public static class ExchangeRateProvider
     //Gets the rates to EUROS. For example, DKK (as of the time of writing this comment) will have the Value of ~7.4955
     public static async Task<IList<ExchangeRate>> GetAllCurrencyLiveRatesAsync()
     {
+        using var activity = Monitoring.ActivitySource.StartActivity();
+
         //add euro with rate 1
         var ratesToEuro = new List<ExchangeRate>
         {
@@ -65,21 +68,6 @@ public static class ExchangeRateProvider
         }
 
         return ratesToEuro;
-
-        ////use only currencies that are supported by ECB
-        //var exchangeRateCurrency = ratesToEuro.FirstOrDefault(rate => rate.CurrencyCode.Equals(exchangeRateCurrencyCode, StringComparison.InvariantCultureIgnoreCase));
-        //if (exchangeRateCurrency == null)
-        //{
-        //    throw new Exception("You can use ECB (European Central Bank) exchange rate provider only when the primary exchange rate currency is supported by ECB.");
-        //}
-
-        ////return result for the selected (not euro) currency
-        //return ratesToEuro.Select(rate => new ExchangeRate
-        //{
-        //    CurrencyCode = rate.CurrencyCode,
-        //    Value = Math.Round(rate.Value / exchangeRateCurrency.Value, 4),
-        //    Timestamp = rate.Timestamp
-        //}).ToList();
     }
 
     #endregion

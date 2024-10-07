@@ -5,6 +5,7 @@ using MessageClient;
 using Microsoft.Identity.Client;
 using System.Diagnostics;
 using ValutaClient;
+using ValutaClient.DB;
 
 namespace Program
 {
@@ -17,8 +18,8 @@ namespace Program
             //var a = await ExchangeRateProvider.GetAllCurrencyLiveRatesAsync("EUR");
 
             //Database db = new Database();
-            //db.SaveData(a);
-            //db.LoadData("DKK");
+            //Database.SaveData(a);
+            Database.LoadData("DKK");
 
             var b = 1;
 

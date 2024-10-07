@@ -1,4 +1,5 @@
-﻿using Helpers.Messages;
+﻿using Helpers;
+using Helpers.Messages;
 using MessageClient;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace ValutaClient
 
         public async void CalculateExchangeRate(ValutaRequestMessage msg)
         {
+            using var activity = Monitoring.ActivitySource.StartActivity();
+
             ExchangeRate? exchangeRateFrom = await DB.Database.LoadData(msg.FromCurrencyCode);
             ExchangeRate? exchangeRateTo;
             if (exchangeRateFrom?.Timestamp < DateTime.Now.AddHours(-1))

@@ -7,6 +7,15 @@ services:
     depends_on:
     - mssql
 
+  sysapi:
+   image: ${DOCKER_REGISTRY-}sysapi
+   build:
+    context: .
+    dockerfile: SysAPI/Dockerfile
+   deploy:
+    mode: replicated
+    replicas: 2
+
   seq:
     image: datalust/seq
     ports:
