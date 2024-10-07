@@ -12,11 +12,11 @@ namespace ValutaClient
 {
     public class ValutaServiceFactory
     {
-        public static ValutaService CreateValutaService()
+        public static ValutaService CreateValutaService(string clientId)
         {
             var easyNetQFactory = new EasyNetQFactory();
             var newValutaClient = easyNetQFactory.CreateTopicMessageClient<ValutaRequestMessage>("ValutaService", "newValuta");
-            var valutaChangedClient = easyNetQFactory.CreatePubSubMessageClient<ValutaResponseMessage>("");
+            var valutaChangedClient = easyNetQFactory.CreatePubSubMessageClient<ValutaResponseMessage>(clientId);
 
             var dataContext = new DB.Database();
             var valutaRepository = new ValutaRepository(dataContext);

@@ -14,7 +14,8 @@ namespace Program
         
         public static async Task Main(string[] args) 
         {
-            
+            var valutaService = ValutaServiceFactory.CreateValutaService("Valuta");
+            valutaService.Start();
             //var a = await ExchangeRateProvider.GetAllCurrencyLiveRatesAsync("EUR");
 
             //Database db = new Database();
