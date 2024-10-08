@@ -18,10 +18,8 @@ namespace Program
             //var a = await ExchangeRateProvider.GetAllCurrencyLiveRatesAsync("EUR");
 
             //Database db = new Database();
-            //Database.SaveData(a);
-            Database.LoadData("DKK");
-
-            var b = 1;
+            //await Database.SaveData(a);
+            //await Database.LoadData("DKK");
 
             var running = true;
             AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>

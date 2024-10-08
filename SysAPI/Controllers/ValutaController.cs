@@ -1,6 +1,7 @@
 using Helpers.Messages;
 using MessageClient;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;  
 
 namespace SysAPI.Controllers
 {
@@ -65,22 +66,51 @@ namespace SysAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<string>> PostValutaExchange(ValutaItems valuta)
         {
+            Guid guid = Guid.NewGuid();
+            Log.Information($"{DateTime.Now}: PostValutaExchange {guid} started, ValutaId={valuta.ValutaId}, " +
+                                                                                 $"Status={valuta.Status}, " +
+                                                                                 $"FromCurrencyCode={valuta.FromCurrencyCode}, " +
+                                                                                 $"ToCurrencyCode={valuta.ToCurrencyCode}, " +
+                                                                                 $"Value={valuta.Value}");
+
             _valutaRequestMessageClient.SendUsingTopic(new ValutaRequestMessage
             {
                 ValutaId = valuta.ValutaId,
                 Status = valuta.Status,
                 ToCurrencyCode = valuta.ToCurrencyCode,
                 FromCurrencyCode = valuta.FromCurrencyCode,
-                Value = valuta.Value,
-                Rate = valuta.Rate,
+                Value = valuta.Value
             }, "newValuta");
 
             var response = await MessageWaiter.WaitForMessage(_valutaResponseMessageClient, valuta.ValutaId.ToString())!;
+            string responseText = response != null ? response.Status : "Transaction timed out";
 
-            return response != null ? response.Status : "Transaction timed out";
+            Log.Information($"{DateTime.Now}: PostValutaExchange {guid} ended: response = {responseText}");
+            return responseText;
 
         }
 
+        [HttpPost]
+        public async Task<ActionResult<string>> GetSupportedCurrencies(ValutaItems valuta)
+        {
+            Guid guid = Guid.NewGuid();
+            Log.Information($"{DateTime.Now}: GetSupportedCurrencies {guid} started" );
+            _valutaRequestMessageClient.SendUsingTopic(new ValutaRequestMessage
+            {
+                ValutaId = valuta.ValutaId,
+                Status = valuta.Status,
+                ToCurrencyCode = valuta.ToCurrencyCode,
+                FromCurrencyCode = valuta.FromCurrencyCode,
+                Value = valuta.Value
+            }, "newValuta");
+
+            var response = await MessageWaiter.WaitForMessage(_valutaResponseMessageClient, valuta.ValutaId.ToString())!;
+            string responseText = response != null ? response.Status : "Transaction timed out";
+
+            Log.Information($"{DateTime.Now}: GetSupportedCurrencies {guid} ended: response = {responseText}");
+            return responseText;
+
+        }
 
     }
 }

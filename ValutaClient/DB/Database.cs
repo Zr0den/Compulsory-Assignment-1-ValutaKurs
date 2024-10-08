@@ -68,7 +68,40 @@ namespace ValutaClient.DB
             return result;
         }
 
-        public static async Task SaveData(IList<ExchangeRate> data)
+        public static async Task<List<ExchangeRate>> GetSupportedCurrencies()
+        {
+            List<ExchangeRate?> result = new();
+            try
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string cs = $"SELECT DISTINCT CurrencyCode FROM ExchangeRate";
+                SqlCommand command = new SqlCommand(cs, sqlConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+                    string currency = reader["CurrencyCode"].ToString();
+                    decimal value = Convert.ToDecimal(reader["Value"]);
+                    DateTime timestamp = Convert.ToDateTime(reader["Timestamp"]);
+
+                    if (!String.IsNullOrEmpty(currency))
+                    {
+                        result.Add(new ExchangeRate() { CurrencyCode = currency, Value = value, Timestamp = timestamp });
+                    }
+                }
+                sqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"GetSupportedCurrencies: {ex.Message}");
+            }
+
+            return result;
+        }
+
+            public static async Task SaveData(IList<ExchangeRate> data)
         {
             if (data.Count == 0)
             {

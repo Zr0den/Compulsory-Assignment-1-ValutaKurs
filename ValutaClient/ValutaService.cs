@@ -39,7 +39,7 @@ namespace ValutaClient
             if (exchangeRateFrom?.Timestamp < DateTime.Now.AddHours(-1))
             {
                 //Data more than 1 hour old - get new data
-                IList<ExchangeRate> data = await ExchangeRateProvider.GetAllCurrencyLiveRatesAsync();
+                IList<ExchangeRate> data = await ExchangeRateProvider.GetAllCurrencyLiveRatesAsync();  
                 exchangeRateFrom = data.Where(x => x.CurrencyCode == msg.FromCurrencyCode).FirstOrDefault();
                 exchangeRateTo = data.Where(x => x.CurrencyCode == msg.ToCurrencyCode).FirstOrDefault();
 
@@ -60,6 +60,27 @@ namespace ValutaClient
             };
 
             _valutaChangedClient.SendUsingTopic<ValutaResponseMessage>(response, "Rate Calculated");
+        }
+
+        public async void GetSupportedCurrencyCodes()
+        {
+            using var activity = Monitoring.ActivitySource.StartActivity();
+
+            StringBuilder sb = new StringBuilder();
+            List<ExchangeRate> data = await DB.Database.GetSupportedCurrencies();
+            foreach (var item in data)
+            {
+                sb.Append(item.CurrencyCode);
+                sb.Append(", ");
+            }
+            sb.Length--;
+
+            ValutaResponseMessage response = new ValutaResponseMessage()
+            {
+                FromCurrencyCode = sb.ToString()
+            };
+
+            _valutaChangedClient.SendUsingTopic<ValutaResponseMessage>(response, "Supported Currencies");
         }
     }
 }

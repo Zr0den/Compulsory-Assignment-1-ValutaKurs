@@ -7,6 +7,5 @@ namespace SysAPI
         public string FromCurrencyCode { get; set; }
         public string ToCurrencyCode { get; set; }
         public decimal Value { get; set; }
-        public decimal Rate { get; set; }
     }
 }

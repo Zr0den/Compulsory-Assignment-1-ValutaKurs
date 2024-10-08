@@ -12,11 +12,13 @@ public static class ExchangeRateProvider
     public static async Task<IList<ExchangeRate>> GetAllCurrencyLiveRatesAsync()
     {
         using var activity = Monitoring.ActivitySource.StartActivity();
+        Guid guid = Guid.NewGuid();
+        Log.Information($"{DateTime.Now}: GetAllCurrencyLiveRatesAsync {guid} started");
 
         //add euro with rate 1
         var ratesToEuro = new List<ExchangeRate>
         {
-            new ExchangeRate
+            new ExchangeRate  
             {
                 CurrencyCode = "EUR",
                 Value = 1,
@@ -67,6 +69,7 @@ public static class ExchangeRateProvider
             Log.Logger.Error($"GetCurrencyLiveRatesAsync: {ex.Message}");
         }
 
+        Log.Information($"{DateTime.Now}: GetAllCurrencyLiveRatesAsync {guid} ended");
         return ratesToEuro;
     }
 
