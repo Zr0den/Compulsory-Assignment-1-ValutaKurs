@@ -3,6 +3,8 @@
 using Helpers.Messages;
 using MessageClient;
 using Microsoft.Identity.Client;
+using MonitoringSystem.Logging;
+using MonitoringSystem.Tracing;
 using System.Diagnostics;
 using ValutaClient;
 using ValutaClient.DB;
@@ -11,7 +13,8 @@ namespace Program
 {
     public class Program
     {
-        
+        private static readonly ILogger logger = (ILogger)new MonitoringSystem.Logging.Logger("test123.log");
+
         public static async Task Main(string[] args) 
         {
             var valutaService = ValutaServiceFactory.CreateValutaService("Valuta");
@@ -32,10 +35,7 @@ namespace Program
             while (running)
             {
             }
-
         }
-
-        
     }
     
 

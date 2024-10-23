@@ -16,7 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageClient", "MessageCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpers", "Helpers\Helpers.csproj", "{6FEDDB1A-50AF-4D20-A5CF-92AEFCCFBFDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{2F58EBDD-ACA7-49C6-9027-1516561D4D05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{2F58EBDD-ACA7-49C6-9027-1516561D4D05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitoringSystem", "MonitoringSystem\MonitoringSystem.csproj", "{A9189CE2-EAFD-4A20-9853-06795E270C84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{73ED2B8C-CFE5-4D1D-AAC7-CD41887B68B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +52,14 @@ Global
 		{2F58EBDD-ACA7-49C6-9027-1516561D4D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F58EBDD-ACA7-49C6-9027-1516561D4D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F58EBDD-ACA7-49C6-9027-1516561D4D05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9189CE2-EAFD-4A20-9853-06795E270C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9189CE2-EAFD-4A20-9853-06795E270C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9189CE2-EAFD-4A20-9853-06795E270C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9189CE2-EAFD-4A20-9853-06795E270C84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73ED2B8C-CFE5-4D1D-AAC7-CD41887B68B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73ED2B8C-CFE5-4D1D-AAC7-CD41887B68B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73ED2B8C-CFE5-4D1D-AAC7-CD41887B68B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73ED2B8C-CFE5-4D1D-AAC7-CD41887B68B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
