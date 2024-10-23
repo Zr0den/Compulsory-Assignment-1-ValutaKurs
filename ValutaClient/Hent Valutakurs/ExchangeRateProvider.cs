@@ -7,7 +7,7 @@ using System.Xml;
 public static class ExchangeRateProvider
 {
 
-    private static ILogger logger = (ILogger)new Logger("test123.log");
+    private static Logger logger = (Logger)new Logger("test123.log");
 
     #region Methods
 

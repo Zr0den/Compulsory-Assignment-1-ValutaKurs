@@ -17,14 +17,14 @@ namespace ValutaClient
         private readonly MessageClient<ValutaRequestMessage> _newValutaClient;
         private readonly MessageClient<ValutaResponseMessage> _valutaChangedClient;
         private readonly ValutaCRUD _valutaCRUD;
-        private static ILogger logger;
+        private static Logger logger;
 
         public ValutaService(MessageClient<ValutaRequestMessage> newValutaClient, MessageClient<ValutaResponseMessage> valutaChangedClient, ValutaCRUD valutaCRUD)
         {
             _newValutaClient = newValutaClient;
             _valutaChangedClient = valutaChangedClient;
             _valutaCRUD = valutaCRUD;
-            logger = (ILogger)new Logger("test123.log");
+            logger = new Logger("test123.log");
         }
 
         public void Start()

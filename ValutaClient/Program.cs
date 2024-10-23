@@ -13,7 +13,6 @@ namespace Program
 {
     public class Program
     {
-        private static readonly ILogger logger = (ILogger)new MonitoringSystem.Logging.Logger("test123.log");
 
         public static async Task Main(string[] args) 
         {
